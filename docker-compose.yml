@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: practicas_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-practicas}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-practicas}
+      POSTGRES_DB: ${POSTGRES_DB:-practicas}
+    ports:
+      - "5432:5432"
+    volumes:
+      - datos_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-practicas} -d ${POSTGRES_DB:-practicas}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build: ./backend
+    container_name: practicas_backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-practicas}:${POSTGRES_PASSWORD:-practicas}@db:5432/${POSTGRES_DB:-practicas}
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-cambiar-en-produccion}
+      JWT_EXPIRACION_MINUTOS: ${JWT_EXPIRACION_MINUTOS:-480}
+      CORS_ORIGENES: ${CORS_ORIGENES:-http://localhost:5173}
+      SEED_ADMIN_CORREO: ${SEED_ADMIN_CORREO:-admin@universidad.cl}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-admin123}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: practicas_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      # Volumen anónimo: conserva los node_modules instalados en la imagen
+      # y evita que el montaje del host los tape.
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  datos_postgres:
