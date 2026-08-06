@@ -11,8 +11,7 @@ router = APIRouter(prefix="/carreras", tags=["carreras"])
 
 @router.get("", response_model=list[CarreraOut])
 def listar_carreras(db: Session = Depends(get_db)) -> list[Carrera]:
-    """Catálogo de carreras, público: alimenta el selector del registro de estudiantes.
-
-    Crear carreras es exclusivo del administrador y se implementa en su rama.
+    """Catálogo de carreras, público: alimenta el selector del registro de estudiantes
+    y el selector de carrera al crear una oferta.
     """
     return list(db.scalars(select(Carrera).order_by(Carrera.nombre)).all())

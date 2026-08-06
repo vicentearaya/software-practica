@@ -47,4 +47,4 @@ class Postulacion(Base):
     )
 
     estudiante: Mapped[Estudiante] = relationship()
-    oferta: Mapped[Oferta] = relationship()
+    oferta: Mapped[Oferta] = relationship(back_populates="postulaciones")

@@ -1,4 +1,8 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class CarreraCreate(BaseModel):
+    nombre: str = Field(min_length=1, max_length=150)
 
 
 class CarreraOut(BaseModel):

@@ -34,4 +34,16 @@ export const api = {
     pedir('/auth/login', { metodo: 'POST', cuerpo: { correo, password } }),
   yo: (token) => pedir('/auth/yo', { token }),
   carreras: () => pedir('/carreras'),
+  adminOfertas: (token, estado) =>
+    pedir(`/admin/ofertas${estado ? `?estado=${estado}` : ''}`, { token }),
+  aprobarOferta: (token, ofertaId) =>
+    pedir(`/admin/ofertas/${ofertaId}/aprobar`, { metodo: 'POST', token }),
+  rechazarOferta: (token, ofertaId, motivo) =>
+    pedir(`/admin/ofertas/${ofertaId}/rechazar`, {
+      metodo: 'POST',
+      token,
+      cuerpo: { motivo },
+    }),
+  crearCarrera: (token, nombre) =>
+    pedir('/admin/carreras', { metodo: 'POST', token, cuerpo: { nombre } }),
 }
