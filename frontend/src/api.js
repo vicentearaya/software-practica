@@ -46,4 +46,7 @@ export const api = {
     }),
   crearCarrera: (token, nombre) =>
     pedir('/admin/carreras', { metodo: 'POST', token, cuerpo: { nombre } }),
+  crearOferta: (token, datos) =>
+    pedir('/empleador/ofertas', { metodo: 'POST', token, cuerpo: datos }),
+  misOfertasAprobadas: (token) => pedir('/empleador/ofertas/aprobadas', { token }),
 }

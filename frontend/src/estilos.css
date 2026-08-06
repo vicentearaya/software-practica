@@ -362,3 +362,29 @@ button.peligro {
   margin: 0.5rem 0 0;
   color: var(--tenue);
 }
+
+.form-oferta {
+  max-width: 36rem;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+.direccion {
+  margin: 0;
+  padding: 0.9rem 1rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.direccion legend {
+  padding: 0 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+

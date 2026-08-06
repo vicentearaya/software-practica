@@ -44,6 +44,8 @@ class UsuarioOut(BaseModel):
     apellido: str
     correo: EmailStr
     rol: RolUsuario
+    # Solo presente para empleadores (perfil y sesión).
+    empresa: str | None = None
 
 
 class TokenOut(BaseModel):

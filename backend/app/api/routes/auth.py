@@ -22,6 +22,18 @@ from app.schemas.auth import (
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
+def _usuario_out(usuario: Usuario) -> UsuarioOut:
+    """Serializa el usuario e incluye empresa cuando el rol es empleador."""
+    return UsuarioOut(
+        id=usuario.id,
+        nombre=usuario.nombre,
+        apellido=usuario.apellido,
+        correo=usuario.correo,
+        rol=usuario.rol,
+        empresa=usuario.empleador.empresa if usuario.empleador is not None else None,
+    )
+
+
 @router.post("/registro", response_model=TokenOut, status_code=status.HTTP_201_CREATED)
 def registrar(datos: RegistroRequest, db: Session = Depends(get_db)) -> TokenOut:
     """Registra un estudiante o un empleador. El administrador no es registrable."""
@@ -64,7 +76,7 @@ def registrar(datos: RegistroRequest, db: Session = Depends(get_db)) -> TokenOut
 
     return TokenOut(
         access_token=crear_token(usuario.id, usuario.rol.value),
-        usuario=UsuarioOut.model_validate(usuario),
+        usuario=_usuario_out(usuario),
     )
 
 
@@ -80,11 +92,11 @@ def login(datos: LoginRequest, db: Session = Depends(get_db)) -> TokenOut:
 
     return TokenOut(
         access_token=crear_token(usuario.id, usuario.rol.value),
-        usuario=UsuarioOut.model_validate(usuario),
+        usuario=_usuario_out(usuario),
     )
 
 
 @router.get("/yo", response_model=UsuarioOut)
-def usuario_actual(usuario: Usuario = Depends(get_usuario_actual)) -> Usuario:
+def usuario_actual(usuario: Usuario = Depends(get_usuario_actual)) -> UsuarioOut:
     """Devuelve la sesión activa: el frontend la usa para saber a qué panel entrar."""
-    return usuario
+    return _usuario_out(usuario)
