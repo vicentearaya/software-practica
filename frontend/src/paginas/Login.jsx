@@ -28,40 +28,49 @@ export default function Login() {
   }
 
   return (
-    <main className="tarjeta">
-      <h1>Iniciar sesión</h1>
-      <form onSubmit={enviar}>
-        <label>
-          Correo
-          <input
-            type="email"
-            value={correo}
-            onChange={(e) => setCorreo(e.target.value)}
-            required
-            autoComplete="email"
-          />
-        </label>
-        <label>
-          Contraseña
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-          />
-        </label>
+    <main className="pantalla-auth">
+      <div className="auth-contenido">
+        <div>
+          <p className="marca">Prácticas</p>
+          <p className="lema">Solicitud de prácticas universitarias</p>
+        </div>
 
-        {error && <p className="error">{error}</p>}
+        <section className="tarjeta">
+          <h1>Iniciar sesión</h1>
+          <form onSubmit={enviar}>
+            <label>
+              Correo
+              <input
+                type="email"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </label>
+            <label>
+              Contraseña
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </label>
 
-        <button type="submit" disabled={enviando}>
-          {enviando ? 'Entrando…' : 'Entrar'}
-        </button>
-      </form>
+            {error && <p className="error">{error}</p>}
 
-      <p className="tenue">
-        ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
-      </p>
+            <button type="submit" disabled={enviando}>
+              {enviando ? 'Entrando…' : 'Entrar'}
+            </button>
+          </form>
+
+          <p className="tenue">
+            ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+          </p>
+        </section>
+      </div>
     </main>
   )
 }

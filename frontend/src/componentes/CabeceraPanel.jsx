@@ -5,7 +5,8 @@ export default function CabeceraPanel({ titulo }) {
 
   return (
     <header className="cabecera">
-      <div>
+      <div className="cabecera-identidad">
+        <p className="marca-mini">Prácticas</p>
         <h1>{titulo}</h1>
         <p className="tenue">
           {usuario.nombre} {usuario.apellido} · {usuario.correo}

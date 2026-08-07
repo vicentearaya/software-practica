@@ -65,85 +65,99 @@ export default function Registro() {
   }
 
   return (
-    <main className="tarjeta">
-      <h1>Crear cuenta</h1>
+    <main className="pantalla-auth">
+      <div className="auth-contenido">
+        <div>
+          <p className="marca">Prácticas</p>
+          <p className="lema">Solicitud de prácticas universitarias</p>
+        </div>
 
-      <label>
-        Tipo de usuario
-        <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-          <option value="">Selecciona…</option>
-          <option value="estudiante">Estudiante</option>
-          <option value="empleador">Empleador</option>
-        </select>
-      </label>
+        <section className="tarjeta">
+          <h1>Crear cuenta</h1>
 
-      {tipo && (
-        <form onSubmit={enviar}>
-          <label>
-            Nombre
-            <input name="nombre" value={campos.nombre} onChange={cambiar} required />
-          </label>
-          <label>
-            Apellido
-            <input name="apellido" value={campos.apellido} onChange={cambiar} required />
-          </label>
-          <label>
-            Correo
-            <input
-              type="email"
-              name="correo"
-              value={campos.correo}
-              onChange={cambiar}
-              required
-              autoComplete="email"
-            />
-          </label>
-          <label>
-            Contraseña
-            <input
-              type="password"
-              name="password"
-              value={campos.password}
-              onChange={cambiar}
-              required
-              minLength={8}
-              autoComplete="new-password"
-            />
-            <span className="tenue">Mínimo 8 caracteres.</span>
-          </label>
-
-          {tipo === 'estudiante' && (
+            <form onSubmit={tipo ? enviar : (e) => e.preventDefault()}>
             <label>
-              Carrera
-              <select name="carrera_id" value={campos.carrera_id} onChange={cambiar} required>
-                <option value="">Selecciona tu carrera…</option>
-                {carreras.map((carrera) => (
-                  <option key={carrera.id} value={carrera.id}>
-                    {carrera.nombre}
-                  </option>
-                ))}
+              Tipo de usuario
+              <select value={tipo} onChange={(e) => setTipo(e.target.value)} required>
+                <option value="">Selecciona…</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="empleador">Empleador</option>
               </select>
             </label>
-          )}
 
-          {tipo === 'empleador' && (
-            <label>
-              Empresa
-              <input name="empresa" value={campos.empresa} onChange={cambiar} required />
-            </label>
-          )}
+            {tipo && (
+              <>
+                <div className="fila-campos">
+                  <label>
+                    Nombre
+                    <input name="nombre" value={campos.nombre} onChange={cambiar} required />
+                  </label>
+                  <label>
+                    Apellido
+                    <input name="apellido" value={campos.apellido} onChange={cambiar} required />
+                  </label>
+                </div>
 
-          {error && <p className="error">{error}</p>}
+                <label>
+                  Correo
+                  <input
+                    type="email"
+                    name="correo"
+                    value={campos.correo}
+                    onChange={cambiar}
+                    required
+                    autoComplete="email"
+                  />
+                </label>
+                <label>
+                  Contraseña
+                  <input
+                    type="password"
+                    name="password"
+                    value={campos.password}
+                    onChange={cambiar}
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                  />
+                  <span className="tenue">Mínimo 8 caracteres.</span>
+                </label>
 
-          <button type="submit" disabled={enviando}>
-            {enviando ? 'Creando…' : 'Crear cuenta'}
-          </button>
-        </form>
-      )}
+                {tipo === 'estudiante' && (
+                  <label>
+                    Carrera
+                    <select name="carrera_id" value={campos.carrera_id} onChange={cambiar} required>
+                      <option value="">Selecciona tu carrera…</option>
+                      {carreras.map((carrera) => (
+                        <option key={carrera.id} value={carrera.id}>
+                          {carrera.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
 
-      <p className="tenue">
-        ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
-      </p>
+                {tipo === 'empleador' && (
+                  <label>
+                    Empresa
+                    <input name="empresa" value={campos.empresa} onChange={cambiar} required />
+                  </label>
+                )}
+
+                {error && <p className="error">{error}</p>}
+
+                <button type="submit" disabled={enviando}>
+                  {enviando ? 'Creando…' : 'Crear cuenta'}
+                </button>
+              </>
+            )}
+          </form>
+
+          <p className="tenue">
+            ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+          </p>
+        </section>
+      </div>
     </main>
   )
 }
