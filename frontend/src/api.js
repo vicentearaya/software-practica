@@ -49,4 +49,12 @@ export const api = {
   crearOferta: (token, datos) =>
     pedir('/empleador/ofertas', { metodo: 'POST', token, cuerpo: datos }),
   misOfertasAprobadas: (token) => pedir('/empleador/ofertas/aprobadas', { token }),
+  ofertasDisponibles: (token) => pedir('/estudiante/ofertas', { token }),
+  postular: (token, ofertaId, carta_presentacion) =>
+    pedir(`/estudiante/ofertas/${ofertaId}/postular`, {
+      metodo: 'POST',
+      token,
+      cuerpo: { carta_presentacion },
+    }),
+  misPostulaciones: (token) => pedir('/estudiante/postulaciones', { token }),
 }

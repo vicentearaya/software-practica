@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import admin, auth, carreras, empleador
+from app.api.routes import admin, auth, carreras, empleador, estudiante
 from app.core.config import configuracion
 
 app = FastAPI(
@@ -22,9 +22,7 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(carreras.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
 app.include_router(empleador.router, prefix="/api")
-
-# Aquí se montan después los routers de cada rol (cada uno en su propia rama):
-#   app.include_router(estudiante.router, prefix="/api")
+app.include_router(estudiante.router, prefix="/api")
 
 
 @app.get("/api/salud", tags=["salud"])
